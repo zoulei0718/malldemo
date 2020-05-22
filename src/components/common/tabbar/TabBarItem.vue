@@ -54,10 +54,12 @@ export default {
 .tab-bar-item {
   flex: 1;
   text-align: center;
+  padding: 1px 0 0 0;
 }
 .tab-bar-item img {
   height: 20px;
   width: 20px;
+  vertical-align: middle;
 }
 .active {
   color: red;

@@ -56,3 +56,7 @@ a {
 .right {
   float: right;
 }
+
+ul {
+  list-style: none;
+}

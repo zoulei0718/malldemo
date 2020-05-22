@@ -24,8 +24,8 @@ export default {
   height: 44px;
   line-height: 44px;
   text-align: center;
-  box-shadow: 0 1px 1px rgba(100, 100, 100, 0.1);
-  background-color: var('--');
+  box-shadow: 0 1px 1px rgba(200, 200, 200, 0.5);
+  margin-bottom: 1px;
 }
 .left, .right {
   width: 60px;
