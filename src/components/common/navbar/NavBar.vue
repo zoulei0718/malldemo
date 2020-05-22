@@ -21,15 +21,17 @@ export default {
 <style>
 .nav-bar {
   display: flex;
-  height: 49px;
-  line-height: 49px;
+  height: 44px;
+  line-height: 44px;
   text-align: center;
-  box-shadow: 0 1px 3px 3px rgba(100, 100, 100, 0.5);
-  background-color: tan;
+  box-shadow: 0 1px 1px rgba(100, 100, 100, 0.1);
+  background-color: var('--');
 }
-.left, .rigth {
+.left, .right {
+  width: 60px;
+}
+.center {
   flex: 1;
-  height: 49px;
-  background-color: silver;
 }
+
 </style>

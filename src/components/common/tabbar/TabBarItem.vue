@@ -32,9 +32,9 @@ export default {
       // console.log('TabBarClick...');
       // console.log(this.path);
       // console.log(this.$router);
-      console.log('this.path:'+this.path);
-      console.log('this.$route.path:'+this.$route.path);
-      console.log(this.$route.path.indexOf(this.path));
+      // console.log('this.path:'+this.path);
+      // console.log('this.$route.path:'+this.$route.path);
+      // console.log(this.$route.path.indexOf(this.path));
 
       // this.isActive=this.$route.path.indexOf()
 
