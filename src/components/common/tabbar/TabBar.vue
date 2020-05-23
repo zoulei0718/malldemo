@@ -14,12 +14,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
   #tab-bar {
     background-color: #f6f6f6;
     display: flex;
     position: fixed;
-    height: 39px;
+    height: 49px;
     left:0;
     right: 0;
     bottom: 0;

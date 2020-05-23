@@ -27,7 +27,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .goods-item {
   width: 48%;
   margin-bottom: 5px;

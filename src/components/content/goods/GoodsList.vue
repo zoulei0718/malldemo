@@ -23,10 +23,12 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .goods-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
+  padding-bottom: 50px;
+  /* height: 800px; */
 }
 </style>

@@ -23,7 +23,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .recommend-bar {
   /* height: 80px; */
   display: flex;

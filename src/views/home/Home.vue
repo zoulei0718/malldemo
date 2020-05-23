@@ -3,11 +3,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <home-swiper :banner="banner"></home-swiper>
-    <home-recommend :recommend="recommend"></home-recommend>
-    <home-feature></home-feature>
-    <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
-    <goods-list :goodsList="goods[type].list"></goods-list>
+    <scroll class="content">
+      <home-swiper :banner="banner"></home-swiper>
+      <home-recommend :recommend="recommend"></home-recommend>
+      <home-feature></home-feature>
+      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
+      <goods-list :goodsList="goods[type].list"></goods-list>
+    </scroll>
   </div>
 </template>
 
@@ -19,6 +21,7 @@ import HomeRecommend from "./childrenComponents/HomeRecommend";
 import HomeFeature from "./childrenComponents/HomeFeature";
 import TabControl from "components/content/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
+import Scroll from "components/common/scroll/Scroll";
 
 //网络请求方法
 import { getHomeMultiData, getHomeGoods } from "network/home";
@@ -43,7 +46,8 @@ export default {
     HomeRecommend,
     HomeFeature,
     TabControl,
-    GoodsList
+    GoodsList,
+    Scroll
   },
   created() {
     this.getHomeMultiData();
@@ -63,7 +67,7 @@ export default {
       const page = this.goods[type].page + 1;
       getHomeGoods(type, page).then(res => {
         // console.log(res.data.data.list);
-        this.goods[type].list = res.data.data.list;
+        this.goods[type].list.push(...res.data.data.list);
         this.goods[type].page++;
       });
     },
@@ -85,7 +89,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .home-nav {
   background-color: var(--color-tint);
   color: #fff;
@@ -93,8 +97,6 @@ export default {
   top: 0;
   left: 0;
   right: 0;
-  /* padding-bottom: 44px; */
-
   z-index: 10;
 }
 .tab-control {
@@ -103,6 +105,18 @@ export default {
 }
 
 #home {
-  margin-top: 44px;
+  /* margin-top: 44px; */
+  height: 100vh;
+  position: relative;
+}
+
+.content{
+  /* overflow: hidden; */
+  position: absolute;
+  top:44px;
+  bottom: 49px;
+  left: 0;
+  right: 0;
+  border: 1px solid red;
 }
 </style>

@@ -18,14 +18,15 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .nav-bar {
   display: flex;
   height: 44px;
   line-height: 44px;
   text-align: center;
   box-shadow: 0 1px 1px rgba(200, 200, 200, 0.5);
-  margin-bottom: 1px;
+  /* margin-bottom: 1px; */
+  z-index: 10;
 }
 .left, .right {
   width: 60px;
