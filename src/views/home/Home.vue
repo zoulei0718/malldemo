@@ -3,13 +3,14 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content">
+    <scroll class="content" ref="scroll">
       <home-swiper :banner="banner"></home-swiper>
       <home-recommend :recommend="recommend"></home-recommend>
       <home-feature></home-feature>
       <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
       <goods-list :goodsList="goods[type].list"></goods-list>
     </scroll>
+    <back-top @click.native="backTopClick"></back-top>
   </div>
 </template>
 
@@ -22,6 +23,7 @@ import HomeFeature from "./childrenComponents/HomeFeature";
 import TabControl from "components/content/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
+import BackTop from "components/content/backtop/BackTop";
 
 //网络请求方法
 import { getHomeMultiData, getHomeGoods } from "network/home";
@@ -47,7 +49,8 @@ export default {
     HomeFeature,
     TabControl,
     GoodsList,
-    Scroll
+    Scroll,
+    BackTop
   },
   created() {
     this.getHomeMultiData();
@@ -84,6 +87,9 @@ export default {
           break;
       }
       // console.log(this.goods[this.type].list);
+    },
+    backTopClick() {
+      this.$refs.scroll.scrollTo(0, 0, 500);
     }
   }
 };
@@ -110,10 +116,10 @@ export default {
   position: relative;
 }
 
-.content{
+.content {
   /* overflow: hidden; */
   position: absolute;
-  top:44px;
+  top: 44px;
   bottom: 49px;
   left: 0;
   right: 0;
