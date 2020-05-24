@@ -3,14 +3,21 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <scroll class="content" ref="scroll">
+    <scroll
+      class="content"
+      ref="scroll"
+      @scrollPosition="scrollPosition"
+      :probe-type="3"
+      :pull-up-load="true"
+      @loadMore="loadMore"
+    >
       <home-swiper :banner="banner"></home-swiper>
       <home-recommend :recommend="recommend"></home-recommend>
       <home-feature></home-feature>
       <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
-      <goods-list :goodsList="goods[type].list"></goods-list>
+      <goods-list :goodsList="goods[currenType].list" @load="finishLoad"></goods-list>
     </scroll>
-    <back-top @click.native="backTopClick"></back-top>
+    <back-top @click.native="backTopClick" v-show="scrollPositionXY.y<-1000"></back-top>
   </div>
 </template>
 
@@ -39,7 +46,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      type: "pop"
+      currenType: "pop",
+      scrollPositionXY: {}
     };
   },
   components: {
@@ -66,30 +74,46 @@ export default {
         this.recommend = res.data.data.recommend.list;
       });
     },
-    getHomeGoods(type) {
-      const page = this.goods[type].page + 1;
-      getHomeGoods(type, page).then(res => {
-        // console.log(res.data.data.list);
-        this.goods[type].list.push(...res.data.data.list);
-        this.goods[type].page++;
+    getHomeGoods(currenType) {
+      const page = this.goods[currenType].page + 1;
+      getHomeGoods(currenType, page).then(res => {
+        // console.log(res.data.data);
+        this.goods[currenType].list.push(...res.data.data.list);
+        this.goods[currenType].page = page;
       });
     },
     tabClick(index) {
       switch (index) {
         case 0:
-          this.type = "pop";
+          this.currenType = "pop";
           break;
         case 1:
-          this.type = "new";
+          this.currenType = "new";
           break;
         default:
-          this.type = "sell";
+          this.currenType = "sell";
           break;
       }
-      // console.log(this.goods[this.type].list);
+      // console.log(this.goods[this.currenType].list);
     },
     backTopClick() {
       this.$refs.scroll.scrollTo(0, 0, 500);
+    },
+    //此时你应该在图片加载完成后，比如 onload 事件回调中，调用 bs.refresh 方法，它会重新计算最新的滚动距离。
+    finishLoad() {
+      console.log("goods-list finishLoad");
+      this.$refs.scroll.refresh();
+    },
+    scrollPosition(pos) {
+      // console.log(`home 滚动位置 X:${pos.x},Y:${pos.y}`);
+      this.scrollPositionXY = pos;
+    },
+    loadMore() {
+      // debugger;
+      console.log("home loadMore");
+      this.getHomeGoods(this.currenType);
+      this.$refs.scroll.finishPullUp();
+      // this.$refs.scroll.refresh();  会重复触发 pullingUp
     }
   }
 };
@@ -111,18 +135,16 @@ export default {
 }
 
 #home {
-  /* margin-top: 44px; */
   height: 100vh;
   position: relative;
 }
 
 .content {
-  /* overflow: hidden; */
+  overflow: hidden;
   position: absolute;
   top: 44px;
   bottom: 49px;
   left: 0;
   right: 0;
-  border: 1px solid red;
 }
 </style>
