@@ -1,6 +1,6 @@
 <template>
   <div class="goods-item">
-    <img :src="goodsItem.show.img" alt />
+    <img :src="goodsItem.show.img" alt @load="imgLoad" />
     <p>
       <span class="title">{{goodsItem.title}}</span>
     </p>
@@ -23,7 +23,13 @@ export default {
       }
     }
   },
-  methods: {}
+  methods: {
+    imgLoad() {
+      // console.log("imgLoad");
+      // console.log(this.$bus);
+      this.$bus.$emit("goodsItemLoad");
+    }
+  }
 };
 </script>
 

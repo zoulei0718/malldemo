@@ -32,6 +32,8 @@ import GoodsList from "components/content/goods/GoodsList";
 import Scroll from "components/common/scroll/Scroll";
 import BackTop from "components/content/backtop/BackTop";
 
+import { debounce } from "common/utils";
+
 //网络请求方法
 import { getHomeMultiData, getHomeGoods } from "network/home";
 
@@ -62,9 +64,21 @@ export default {
   },
   created() {
     this.getHomeMultiData();
+
     this.getHomeGoods("pop");
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
+
+    // this.$bus.$on("goodsItemLoad", () => {
+    //   this.$refs.scroll.refresh();
+    //   // debounce(this.$refs.scroll.refresh, 300);
+    // });
+  },
+  mounted() {
+    this.$bus.$on("goodsItemLoad", () => {
+      // this.$refs.scroll.refresh();
+      debounce(this.$refs.scroll.refresh, 300, {});
+    });
   },
   methods: {
     getHomeMultiData() {
@@ -110,7 +124,7 @@ export default {
     },
     loadMore() {
       // debugger;
-      console.log("home loadMore");
+      // console.log("home loadMore");
       this.getHomeGoods(this.currenType);
       this.$refs.scroll.finishPullUp();
       // this.$refs.scroll.refresh();  会重复触发 pullingUp
