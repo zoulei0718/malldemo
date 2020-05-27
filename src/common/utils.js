@@ -1,13 +1,13 @@
-export function debounce(fun, delay = 300, ...args) {
+export function debounce(func, delay) {
   let timer = null
-  if (timer) {
-    console.log(`清除 timer${timer}`)
-    clearTimeout(timer)
-
+  return function (...args) {
+    // debugger
+    if (timer) {
+      // console.log(`清除 timer:${timer}`)
+      clearTimeout(timer)
+    }
+    timer = setTimeout(() => {
+      func.apply(this, args)
+    }, delay)
   }
-  timer = setTimeout(() => {
-    console.log(`执行了防抖 debounce... timer:${timer}`);
-    fun.apply(this, args)
-  }, delay);
-
 }

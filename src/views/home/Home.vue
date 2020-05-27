@@ -11,11 +11,16 @@
       :pull-up-load="true"
       @loadMore="loadMore"
     >
-      <home-swiper :banner="banner"></home-swiper>
+      <home-swiper :banner="banner" @homeSwiperImgLoad="homeSwiperImgLoad"></home-swiper>
       <home-recommend :recommend="recommend"></home-recommend>
       <home-feature></home-feature>
-      <tab-control :titles="['流行','新款','精选']" class="tab-control" @tabClick="tabClick"></tab-control>
-      <goods-list :goodsList="goods[currenType].list" @load="finishLoad"></goods-list>
+      <tab-control
+        :titles="['流行','新款','精选']"
+        class="tab-control"
+        @tabClick="tabClick"
+        ref="tabcontrol"
+      ></tab-control>
+      <goods-list :goodsList="goods[currenType].list"></goods-list>
     </scroll>
     <back-top @click.native="backTopClick" v-show="scrollPositionXY.y<-1000"></back-top>
   </div>
@@ -49,7 +54,9 @@ export default {
         sell: { page: 0, list: [] }
       },
       currenType: "pop",
-      scrollPositionXY: {}
+      scrollPositionXY: {},
+      tabControlOffsetTop: 0,
+      scrollXY: {}
     };
   },
   components: {
@@ -75,10 +82,11 @@ export default {
     // });
   },
   mounted() {
+    let refreshFun = debounce(this.$refs.scroll.refresh, 500);
     this.$bus.$on("goodsItemLoad", () => {
-      // this.$refs.scroll.refresh();
-      debounce(this.$refs.scroll.refresh, 300, {});
+      refreshFun();
     });
+    // console.log(this.$refs.tabcontrol.$el.offsetTop);
   },
   methods: {
     getHomeMultiData() {
@@ -116,7 +124,7 @@ export default {
     //此时你应该在图片加载完成后，比如 onload 事件回调中，调用 bs.refresh 方法，它会重新计算最新的滚动距离。
     finishLoad() {
       console.log("goods-list finishLoad");
-      this.$refs.scroll.refresh();
+      // this.$refs.scroll.refresh();
     },
     scrollPosition(pos) {
       // console.log(`home 滚动位置 X:${pos.x},Y:${pos.y}`);
@@ -128,7 +136,26 @@ export default {
       this.getHomeGoods(this.currenType);
       this.$refs.scroll.finishPullUp();
       // this.$refs.scroll.refresh();  会重复触发 pullingUp
+    },
+    homeSwiperImgLoad() {
+      // console.log("home homeSwiperImgLoad");
+      this.tabControlOffsetTop = this.$refs.tabcontrol.$el.offsetTop;
     }
+  },
+  activated() {
+    // console.log("home activated");
+    // console.log(this.$refs.scroll);
+    this.scrollXY.x &&
+      this.$refs.scroll.scrollTo(this.scrollXY.x, this.scrollXY.y, 0);
+  },
+  deactivated() {
+    // console.log("home deactivated");
+    this.scrollXY.x = this.$refs.scroll.scroll.x;
+    this.scrollXY.y = this.$refs.scroll.scroll.y;
+    // console.log(this.scrollXY);
+  },
+  destroyed() {
+    console.log("home destroyed");
   }
 };
 </script>

@@ -57,7 +57,7 @@ export default {
     refresh() {
       //重新计算 BetterScroll，当 DOM 结构发生变化的时候务必要调用确保滚动的效果正常。
       this.scroll.refresh();
-      console.log("scroll refresh() 被调用...");
+      console.log("scroll refresh() 被调用.");
     },
     // onScroll() {
     //   console.log(`Now position is x: ${pos.x}, y: ${pos.y}`);
