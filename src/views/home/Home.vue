@@ -144,9 +144,8 @@ export default {
   },
   activated() {
     // console.log("home activated");
-    // console.log(this.$refs.scroll);
-    this.scrollXY.x &&
-      this.$refs.scroll.scrollTo(this.scrollXY.x, this.scrollXY.y, 0);
+    // console.log(this.$refs.scroll.scrollTo, this.scrollXY);
+    this.scrollXY.x && this.$refs.scroll.scrollTo(0, -1000, 100);
   },
   deactivated() {
     // console.log("home deactivated");

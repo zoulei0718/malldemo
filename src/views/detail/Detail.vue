@@ -1,6 +1,7 @@
 <template>
   <div>
-    <detail-swiper :imgs="imgs" class="detail-swiper"></detail-swiper>
+    <detail-nav-bar></detail-nav-bar>
+    <detail-swiper :imgs="imgs"></detail-swiper>
   </div>
 </template>
 
@@ -8,6 +9,7 @@
 import { getDetail } from "network/detail";
 
 import DetailSwiper from "views/detail/DetailSwiper";
+import DetailNavBar from "components/common/navbar/DetailNavBar";
 
 export default {
   name: "Detail",
@@ -18,26 +20,23 @@ export default {
     };
   },
   created() {
-    this.iid = this.$route.query.iid;
+    this.iid = this.$route.params.iid;
     // console.log(this.$route);
 
     //
     getDetail(this.iid).then(res => {
-      // console.log(res.data.result.detailInfo.detailImage[0].list);
-      this.imgs = res.data.result.detailInfo.detailImage[0].list;
-      console.log(typeof this.imgs);
-      console.log(this.imgs);
+      // console.log(res.data.result.itemInfo.topImages);
+      this.imgs = res.data.result.itemInfo.topImages;
+      // console.log(typeof this.imgs);
+      // console.log(this.imgs);
     });
   },
   components: {
-    DetailSwiper
+    DetailSwiper,
+    DetailNavBar
   }
 };
 </script>
 
 <style scoped>
-.detail-swiper {
-  height: 300px;
-  overflow: hidden;
-}
 </style>

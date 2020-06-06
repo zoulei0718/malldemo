@@ -30,13 +30,15 @@ export default {
       this.$bus.$emit("goodsItemLoad");
     },
     homeGoodsItemClick(iid) {
+      this.$router.push("/detail/" + iid);
       // this.$router.push(`detail\\${iid}`);
-      this.$router.push({
-        path: "/detail",
-        query: {
-          iid
-        }
-      });
+
+      // this.$router.push({
+      //   path: "/detail",
+      //   query: {
+      //     iid
+      //   }
+      // });
     }
   }
 };
